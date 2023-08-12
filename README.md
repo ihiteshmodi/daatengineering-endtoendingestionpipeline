@@ -10,6 +10,7 @@ The project architecture closely aligns with this schematic, often in a 1:1 corr
 2. Variable column sequencing (addressed in our code as well)
 3. Heterogeneous date formats – in practice, multiple formats are handled, requiring rigorous exception handling, testing, and troubleshooting.
 4. For intricate ETLs with extensive data volumes, AWS Glue supersedes Lambda due to time constraints (Lambda's 15-minute max execution). AWS Glue, integrated with dynamic dataframes (Spark), is better suited for lengthier as well as heavier processing.
+5. In real time data, the error eg - Duplicates have to be in the filelog as well as as there has to be a seperate folders where only the duplicate piece from the file is saved with same file name to identify which all rows were duplicates
 
 ## Project Description:
 1. The client deposits daily data into S3 folders (auto-created in Part 1 of the project which can be found ![here](https://github.com/ihiteshmodi/dataengineering-ingestionpipeline-s3foldercreator)).
