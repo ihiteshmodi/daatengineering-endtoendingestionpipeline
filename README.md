@@ -1,37 +1,3 @@
-# daatengineering-endtoendingestionpipeline
-
-# AWS End to End Data Ingestion Pipeline
-
-Prerequisite
-1) Setting up AWS Eventbridge to trigger lambda functions when a file (with .csv extension only) arrives in s3 bucket. rest of the files should be ignored.
-2) Utilizing S3 bucket as Snowflake Stage.
-
-Project level - The real project architecture wise is going to look very similar to this, in some cases even a 1:1 match. The only thing that will change si the ETL. In real world ETL cases you have to deal with too many scenarious like
-1) Inconsistent column names
-2) Inconsistent column order (we deal with this in our code here as well)
-3) inconsistent date types - We are using only YYYY-MM-DD here but in real life we may have to try 4 different formats if this one fails. Exception handling, firefighting and test cases are a lot in real life. 
-4) In case if the ETL is more ocmplex and File sizes are Huge, We use AWS Glue instead of lambda. Lambda can work for max 15 mins but Id not recomemnd using Lambdas for anything that takes more than 3-5 mins. Rather use AWS Glue and with Glue dynamic datfarmes (spark).
-
-Project Description - 
-1) The client is dropping the data in s3 folders everyday (which are created in Part 1 of this project which can be found here : https://github.com/ihiteshmodi/dataengineering-ingestionpipeline-s3foldercreator)
-
-2) The file has to autoinvoke an AWS lambda function (Using AWS Eventbridge)
-
-3) The Aws fucntion will read the ETL details (cast type, column name change, and column order). turns the data consistent and loads to a S3 path that is being used as a stage in snwoflake.
-
-4) then runs a stored procedure (On Snowflake SQL) that ingests data from staging table to Snowflake Main table. 
-
-5) The filelog table will be update dby the lambda code until ingestion, the stored procedure will be ingesting rest of the details like ho wmnay rows were ingested into main table
-
-NOTE: Its important to clear the stage after we are done ingesting. Run a delete command on the s3 bucket that is linekd ot stage.
-
--------------------------------------------------------------
-
-NOTE : Please be aware that this architecture is designed to function seamlessly when the stored procedure is initiated by the Lambda or Glue code itself, as is the case in our context. However, if the stored procedures are manually triggered by individuals, a potential issue arises. In scenarios where multiple data sources are being merged into a single source, Snowflake will only update a single file log if multiple individuals activate the stored procedure concurrently.
-
-
-
-
 # End-to-End AWS Data Ingestion Pipeline
 
 ## Prerequisites:
