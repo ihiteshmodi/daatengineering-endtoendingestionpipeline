@@ -1,0 +1,8 @@
+﻿Index,Output Column,Input Column,Data Type,Current Cast Type,Nullable
+0,FILE_ID,,VARCHAR,,
+1,HASH_KEY,,VARCHAR,,
+2,DATE_OF_SALE,datesold,DATE,"""%Y-%m-%d""",FALSE
+3,POSTAL_CODE,postcode,NUMBER,,
+4,SELLING_PRICE,price,NUMBER,,
+5,PROPERTY_TYPE,propertyType,VARCHAR,,
+6,NO_OF_BEDROOMS,bedrooms,NUMBER,,

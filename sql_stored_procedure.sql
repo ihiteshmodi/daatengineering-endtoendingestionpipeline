@@ -1,0 +1,25 @@
+CREATE OR REPLACE PROCEDURE INGEST_AND_UPDATE_COUNTS()
+RETURNS STRING
+LANGUAGE SQL
+EXECUTE AS CALLER
+AS
+$$
+-- Ingest data from staging to main table
+INSERT INTO MAIN_TABLE
+SELECT * FROM STAGING_TABLE;
+
+-- Group counts of rows in staging table by FILE_ID
+CREATE OR REPLACE TEMPORARY TABLE TEMP_COUNTS AS
+SELECT FILE_ID, COUNT(*) AS ROW_COUNT
+FROM STAGING_TABLE
+GROUP BY FILE_ID;
+
+-- Update FILELOG_TABLE with counts after ingestion
+UPDATE FILELOG_TABLE AS f
+SET COUNTS_AFTER_INGESTION = c.ROW_COUNT
+FROM TEMP_COUNTS AS c
+WHERE f.FILE_ID = c.FILE_ID;
+
+-- Return a success message
+RETURN 'Data ingestion and counts update completed successfully.';
+$$;
