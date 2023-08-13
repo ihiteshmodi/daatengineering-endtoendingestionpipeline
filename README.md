@@ -22,7 +22,7 @@ The project architecture closely aligns with this schematic, often in a 1:1 corr
 2. AWS Lambda is triggered automatically (via AWS EventBridge).
 3. Lambda assesses ETL specifications (type casting, column name adjustments, sequencing), ensuring data consistency. Processed data lands in a designated S3 stage used for Snowflake.
 4. A Snowflake SQL stored procedure is executed, transferring data from the stage to the main table.
-5. The Lambda code maintains the filelog table until ingestion is complete. The stored procedure subsequently updates specifics like the number of rows ingested into the main table.
+5. The Lambda code maintains the filelog table until ingestion is complete. The stored procedure subsequently updates specifics like the number of rows ingested into the main table in the same filelog table as well as ingests the data.
 
 ## Data Hygiene:
 Clearing the stage after ingestion is vital. Post-ingestion, a delete command is executed on the associated S3 bucket linked to the stage.
